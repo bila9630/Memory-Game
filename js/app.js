@@ -60,18 +60,16 @@ function shuffle(array) {
      });
 
      deck.innerHTML = cardHTML.join("");
-     
  }
 
  initGame();
  var allCards = document.querySelectorAll(".card");
  var openCards = []; //openCards.length
+ let matchedCards = [];
 
-
- 
 
 //each card
- allCards.forEach(function(card){
+ const addListener = allCards.forEach(function(card){
      card.addEventListener('click', () => {
         if (!card.classList.contains("open") && 
             !card.classList.contains("show") && 
@@ -79,11 +77,9 @@ function shuffle(array) {
             countmoves(); //countMoves will be called here
             openCards.push(card);
             card.classList.add('open', 'show');
-            console.log('Open cards:', openCards.length);
 
             // Check if they match            
             var firstCardType = openCards[0].dataset.card;
-            console.log(firstCardType);
 
             // If cards don't match - go away
             
@@ -91,6 +87,8 @@ function shuffle(array) {
                 if (openCards[0].dataset.card == openCards[1].dataset.card) {
                     openCards.forEach(function(card){
                         card.classList.add("match");
+                        matchedCards.push(card);
+                        console.log("Anzahl matchedCards"+ matchedCards.length);
                     });
                     openCards = [];
                 } else {
@@ -102,7 +100,12 @@ function shuffle(array) {
                         openCards = [];
                     }, 1000);
                 }
-            };
+            } else if (openCards.length >= 3) {
+                openCards.forEach(function(card) {
+                    card.classList.remove("open", "show");
+                });
+                openCards = [];
+            }
             
         }
      });
@@ -116,12 +119,24 @@ function shuffle(array) {
      document.querySelector(".moves").innerHTML = move;
   }
  
+
+//modal
+showModal = () => {
+    if (matchedCards.length == 16) {
+        console.log("You win");
+    }
+    
+}
+
+showModal();
+
  
  
  //restart
  let restart = function() {
-    restartgrid();
+    initGame();
     // restart score
+    matchedCards = [];
     move = 0;
     document.querySelector(".moves").innerHTML = move;
  };
@@ -131,12 +146,7 @@ function shuffle(array) {
  restartButton.addEventListener("click", restart);
 
 
-function restartgrid() {
-    initGame();
-    allCards.forEach(function(card){
-        card.classList.remove("open", "show", "match");
-    });
-}
+
 
  //setTimer
 var time = 0;
@@ -145,13 +155,12 @@ var timer;
 function setTimer() {
     timer = setInterval(function(){
         time++;
-        console.log(time);
+        document.querySelector(".timer").innerHTML = time;
     }, 1000);
 };
 
 function clearTimer() {
     clearInterval(timer);
 }
-
 
 setTimer();
