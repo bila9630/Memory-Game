@@ -53,11 +53,7 @@ function shuffle(array) {
  */
 
 //move counter
-let move = 0;
-let countmoves = function () {
-    move += 1;
-    document.querySelector(".moves").innerHTML = move;
-}
+var star = document.querySelectorAll("ul.stars li");
 
 function initGame() {
     setTimer();
@@ -70,6 +66,19 @@ function initGame() {
     var allCards = document.querySelectorAll(".card");
     var openCards = []; //openCards.length
     let matchedCards = [];
+    
+    let move = 0;
+    const countmoves = function () {
+        move += 1;
+        document.querySelector(".moves").innerHTML = move;
+        /*removing stars*/
+        
+        if(move > 15 && move < 26) {
+            star[0].style.display = "none";
+        } else if ( move > 27) {
+            star[1].style.display = "none";
+        }
+    }
 
 
     //each card
@@ -118,12 +127,6 @@ function initGame() {
 
 
 
-
-
-  //move counter, can't put the if statement here because card is undefined
-
-
-
 //modal
 /*
 showModal = () => {
@@ -141,8 +144,12 @@ showModal();
 let restart = function() {
     initGame();
     // restart score
+    move = 0
     matchedCards = [];
-    move = 0;
+    time = 0;
+    clearTimer;
+    star[0].style.display = "inline";
+    star[1].style.display = "inline";
     document.querySelector(".moves").innerHTML = move;
 };
 document.querySelector(".fa-repeat").addEventListener("click", restart);
@@ -163,6 +170,8 @@ function setTimer() {
 
 function clearTimer() {
     clearInterval(timer);
+    timer = setInterval(function(){
+    }, 1000 );
 }
 
 initGame();
