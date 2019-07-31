@@ -52,91 +52,110 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
+//move counter
+var star = document.querySelectorAll("ul.stars li");
 
- function initGame() {
-     var deck = document.querySelector(".deck");
-     var cardHTML = shuffle(cards).map(function(card) {
-         return generateCard(card);
-     });
+function initGame() {
+    setTimer();
+    var deck = document.querySelector(".deck");
+    var cardHTML = shuffle(cards).map(function(card) {
+        return generateCard(card);
+    });
 
-     deck.innerHTML = cardHTML.join("");
-     
- }
+    deck.innerHTML = cardHTML.join("");
+    var allCards = document.querySelectorAll(".card");
+    var openCards = []; //openCards.length
+    let matchedCards = [];
+    
+    let move = 0;
+    const countmoves = function () {
+        move += 1;
+        document.querySelector(".moves").innerHTML = move;
+        /*removing stars*/
+        
+        if(move > 15 && move < 26) {
+            star[0].style.display = "none";
+        } else if ( move > 27) {
+            star[1].style.display = "none";
+        }
+    }
 
- initGame();
- var allCards = document.querySelectorAll(".card");
- var openCards = []; //openCards.length
 
+    //each card
+    const addListener = allCards.forEach(function(card){
+        card.addEventListener('click', () => {
+            if (!card.classList.contains("open") && 
+                !card.classList.contains("show") && 
+                !card.classList.contains('match') ) {
+                countmoves(); //countMoves will be called here
+                openCards.push(card);
+                card.classList.add('open', 'show');
 
- 
+                // Check if they match            
+                var firstCardType = openCards[0].dataset.card;
 
-//each card
- allCards.forEach(function(card){
-     card.addEventListener('click', () => {
-        if (!card.classList.contains("open") && 
-            !card.classList.contains("show") && 
-            !card.classList.contains('match') ) {
-            countmoves(); //countMoves will be called here
-            openCards.push(card);
-            card.classList.add('open', 'show');
-            console.log('Open cards:', openCards.length);
-
-            // Check if they match            
-            var firstCardType = openCards[0].dataset.card;
-            console.log(firstCardType);
-
-            // If cards don't match - go away
-            
-            if (openCards.length == 2){
-                if (openCards[0].dataset.card == openCards[1].dataset.card) {
-                    openCards.forEach(function(card){
-                        card.classList.add("match");
-                    });
-                    openCards = [];
-                } else {
-                //If no match, hide
-                    setTimeout( () =>{
+                // If cards don't match - go away
+                
+                if (openCards.length == 2){
+                    if (openCards[0].dataset.card == openCards[1].dataset.card) {
                         openCards.forEach(function(card){
-                            card.classList.remove('open', 'show');
+                            card.classList.add("match");
+                            matchedCards.push(card);
+                            console.log("Anzahl matchedCards"+ matchedCards.length);
                         });
                         openCards = [];
-                    }, 1000);
+                    } else {
+                    //If no match, hide
+                        setTimeout( () =>{
+                            openCards.forEach(function(card){
+                                card.classList.remove('open', 'show');
+                            });
+                            openCards = [];
+                        }, 1000);
+                    }
+                } else if (openCards.length >= 3) {
+                    openCards.forEach(function(card) {
+                        card.classList.remove("open", "show");
+                    });
+                    openCards = [];
                 }
-            };
-            
-        }
-     });
- });
+                
+            }
+        });
+    });
+}
 
 
-  //move counter, can't put the if statement here because card is undefined
-  let move = 0;
-  let countmoves = function () {
-      move += 1;
-     document.querySelector(".moves").innerHTML = move;
-  }
- 
+
+//modal
+/*
+showModal = () => {
+    if (matchedCards.length == 16) {
+        console.log("You win");
+    }
+    
+}
+
+showModal();
+*/
  
  
  //restart
- let restart = function() {
-    restartgrid();
-    // restart score
-    move = 0;
-    document.querySelector(".moves").innerHTML = move;
- };
- 
- let restartButton = document.querySelector(".fa-repeat");
-  
- restartButton.addEventListener("click", restart);
-
-
-function restartgrid() {
+let restart = function() {
     initGame();
-    allCards.forEach(function(card){
-        card.classList.remove("open", "show", "match");
-    });
-}
+    // restart score
+    move = 0
+    matchedCards = [];
+    time = 0;
+    clearTimer;
+    star[0].style.display = "inline";
+    star[1].style.display = "inline";
+    document.querySelector(".moves").innerHTML = move;
+};
+document.querySelector(".fa-repeat").addEventListener("click", restart);
+
+
+
 
  //setTimer
 var time = 0;
@@ -145,13 +164,15 @@ var timer;
 function setTimer() {
     timer = setInterval(function(){
         time++;
-        console.log(time);
+        document.querySelector(".timer").innerHTML = time;
     }, 1000);
 };
 
 function clearTimer() {
     clearInterval(timer);
+    timer = setInterval(function(){
+    }, 1000 );
 }
 
+initGame();
 
-setTimer();
