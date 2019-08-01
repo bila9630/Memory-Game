@@ -54,6 +54,8 @@ function shuffle(array) {
 
 //move counter
 var star = document.querySelectorAll("ul.stars li");
+let matchedCards = [];
+
 
 function initGame() {
     setTimer();
@@ -65,7 +67,7 @@ function initGame() {
     deck.innerHTML = cardHTML.join("");
     var allCards = document.querySelectorAll(".card");
     var openCards = []; //openCards.length
-    let matchedCards = [];
+
     
     let move = 0;
     const countmoves = function () {
@@ -79,6 +81,7 @@ function initGame() {
             star[1].style.display = "none";
         }
     }
+
 
 
     //each card
@@ -102,6 +105,11 @@ function initGame() {
                             card.classList.add("match");
                             matchedCards.push(card);
                             console.log("Anzahl matchedCards"+ matchedCards.length);
+                            setTimeout( () => {
+                                if (matchedCards.length == 16) {
+                                    showModal();
+                                }
+                            }, 1000);
                         });
                         openCards = [];
                     } else {
@@ -123,21 +131,18 @@ function initGame() {
             }
         });
     });
+
+
 }
 
 
 
 //modal
-/*
+
 showModal = () => {
-    if (matchedCards.length == 16) {
-        console.log("You win");
-    }
-    
+    alert("You win");
 }
 
-showModal();
-*/
  
  
  //restart
@@ -147,7 +152,7 @@ let restart = function() {
     move = 0
     matchedCards = [];
     time = 0;
-    clearTimer;
+    clearTimer();
     star[0].style.display = "inline";
     star[1].style.display = "inline";
     document.querySelector(".moves").innerHTML = move;
@@ -171,7 +176,7 @@ function setTimer() {
 function clearTimer() {
     clearInterval(timer);
     timer = setInterval(function(){
-    }, 1000 );
+    }, 1000);
 }
 
 initGame();
