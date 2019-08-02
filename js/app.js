@@ -54,6 +54,53 @@ function shuffle(array) {
 
 //move counter
 var star = document.querySelectorAll("ul.stars li");
+let matchedCards = [];
+
+//modal
+let modal = document.querySelector(".modal");
+showModal = () => {
+    modal.style.display = "block";
+    //shows results in the end
+    document.querySelector("ModalTimer").innerHTML = time;
+}
+
+ 
+ 
+ //restart
+let restart = function() {
+    initGame();
+    // restart score
+    move = 0
+    matchedCards = [];
+    time = 0;
+    clearTimer();
+    star[0].style.display = "inline";
+    star[1].style.display = "inline";
+    document.querySelector(".moves").innerHTML = move;
+    modal.style.display = "none";
+};
+document.querySelector(".fa-repeat").addEventListener("click", restart);
+
+
+
+
+ //setTimer
+var time = 0;
+var timer;
+
+function setTimer() {
+    timer = setInterval(function(){
+        time++;
+        document.querySelector(".timer").innerHTML = time;
+    }, 1000);
+};
+
+function clearTimer() {
+    clearInterval(timer);
+    timer = setInterval(function(){
+    }, 1000);
+}
+
 
 function initGame() {
     setTimer();
@@ -65,12 +112,13 @@ function initGame() {
     deck.innerHTML = cardHTML.join("");
     var allCards = document.querySelectorAll(".card");
     var openCards = []; //openCards.length
-    let matchedCards = [];
+
     
     let move = 0;
     const countmoves = function () {
         move += 1;
         document.querySelector(".moves").innerHTML = move;
+
         /*removing stars*/
         
         if(move > 15 && move < 26) {
@@ -79,6 +127,7 @@ function initGame() {
             star[1].style.display = "none";
         }
     }
+
 
 
     //each card
@@ -102,6 +151,11 @@ function initGame() {
                             card.classList.add("match");
                             matchedCards.push(card);
                             console.log("Anzahl matchedCards"+ matchedCards.length);
+                            setTimeout( () => {
+                                if (matchedCards.length == 16) {
+                                    showModal();
+                                }
+                            }, 1000);
                         });
                         openCards = [];
                     } else {
@@ -123,56 +177,10 @@ function initGame() {
             }
         });
     });
+
+
 }
 
-
-
-//modal
-/*
-showModal = () => {
-    if (matchedCards.length == 16) {
-        console.log("You win");
-    }
-    
-}
-
-showModal();
-*/
- 
- 
- //restart
-let restart = function() {
-    initGame();
-    // restart score
-    move = 0
-    matchedCards = [];
-    time = 0;
-    clearTimer;
-    star[0].style.display = "inline";
-    star[1].style.display = "inline";
-    document.querySelector(".moves").innerHTML = move;
-};
-document.querySelector(".fa-repeat").addEventListener("click", restart);
-
-
-
-
- //setTimer
-var time = 0;
-var timer;
-
-function setTimer() {
-    timer = setInterval(function(){
-        time++;
-        document.querySelector(".timer").innerHTML = time;
-    }, 1000);
-};
-
-function clearTimer() {
-    clearInterval(timer);
-    timer = setInterval(function(){
-    }, 1000 );
-}
 
 initGame();
 

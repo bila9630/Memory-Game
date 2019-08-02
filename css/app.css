@@ -111,3 +111,15 @@ h1 {
     float: right;
     cursor: pointer;
 }
+
+.modal {
+    display: none;
+    background-color: rgb(179, 212, 223);
+    position: fixed;
+    z-index: 1;
+    padding: 10vh 5vw;
+}
+
+.PositionCenter {
+    text-align: center;
+}
