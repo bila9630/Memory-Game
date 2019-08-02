@@ -56,6 +56,51 @@ function shuffle(array) {
 var star = document.querySelectorAll("ul.stars li");
 let matchedCards = [];
 
+//modal
+let modal = document.querySelector(".modal");
+showModal = () => {
+    modal.style.display = "block";
+    //shows results in the end
+    document.querySelector("ModalTimer").innerHTML = time;
+}
+
+ 
+ 
+ //restart
+let restart = function() {
+    initGame();
+    // restart score
+    move = 0
+    matchedCards = [];
+    time = 0;
+    clearTimer();
+    star[0].style.display = "inline";
+    star[1].style.display = "inline";
+    document.querySelector(".moves").innerHTML = move;
+    modal.style.display = "none";
+};
+document.querySelector(".fa-repeat").addEventListener("click", restart);
+
+
+
+
+ //setTimer
+var time = 0;
+var timer;
+
+function setTimer() {
+    timer = setInterval(function(){
+        time++;
+        document.querySelector(".timer").innerHTML = time;
+    }, 1000);
+};
+
+function clearTimer() {
+    clearInterval(timer);
+    timer = setInterval(function(){
+    }, 1000);
+}
+
 
 function initGame() {
     setTimer();
@@ -73,6 +118,7 @@ function initGame() {
     const countmoves = function () {
         move += 1;
         document.querySelector(".moves").innerHTML = move;
+
         /*removing stars*/
         
         if(move > 15 && move < 26) {
@@ -135,49 +181,6 @@ function initGame() {
 
 }
 
-
-
-//modal
-
-showModal = () => {
-    alert("You win");
-}
-
- 
- 
- //restart
-let restart = function() {
-    initGame();
-    // restart score
-    move = 0
-    matchedCards = [];
-    time = 0;
-    clearTimer();
-    star[0].style.display = "inline";
-    star[1].style.display = "inline";
-    document.querySelector(".moves").innerHTML = move;
-};
-document.querySelector(".fa-repeat").addEventListener("click", restart);
-
-
-
-
- //setTimer
-var time = 0;
-var timer;
-
-function setTimer() {
-    timer = setInterval(function(){
-        time++;
-        document.querySelector(".timer").innerHTML = time;
-    }, 1000);
-};
-
-function clearTimer() {
-    clearInterval(timer);
-    timer = setInterval(function(){
-    }, 1000);
-}
 
 initGame();
 
