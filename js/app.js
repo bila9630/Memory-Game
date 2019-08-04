@@ -56,15 +56,7 @@ function shuffle(array) {
 var star = document.querySelectorAll("ul.stars li");
 let matchedCards = [];
 
-//modal
-let modal = document.querySelector(".modal");
-showModal = () => {
-    modal.style.display = "block";
-    //shows results in the end
-    document.querySelector("ModalTimer").innerHTML = time;
-}
 
- 
  
  //restart
 let restart = function() {
@@ -101,6 +93,14 @@ function clearTimer() {
     }, 1000);
 }
 
+//modal
+modal = document.querySelector(".modal");
+showModal = () => {
+    modal.style.display = "block";
+    document.querySelector(".ModalTimer").innerHTML = time;
+    document.querySelector(".ModalMoves").innerHTML = move;
+}
+
 
 function initGame() {
     setTimer();
@@ -114,7 +114,7 @@ function initGame() {
     var openCards = []; //openCards.length
 
     
-    let move = 0;
+    var move = 0;
     const countmoves = function () {
         move += 1;
         document.querySelector(".moves").innerHTML = move;
@@ -173,7 +173,6 @@ function initGame() {
                     });
                     openCards = [];
                 }
-                
             }
         });
     });
