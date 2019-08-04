@@ -2,15 +2,15 @@
  * Create a list that holds all of your cards
  */
 
-var cards = [ "fa-diamond", 'fa-diamond',
-              "fa fa-paper-plane-o", "fa fa-paper-plane-o",
-              "fa-anchor", "fa-anchor",
-              "fa-bolt", "fa-bolt",
-              "fa-cube", "fa-cube",
-              "fa-leaf", "fa-leaf",
-              "fa-bicycle", "fa-bicycle",
-              "fa-bomb", "fa-bomb"
-            ];
+var cards = ["fa-diamond", 'fa-diamond',
+    "fa fa-paper-plane-o", "fa fa-paper-plane-o",
+    "fa-anchor", "fa-anchor",
+    "fa-bolt", "fa-bolt",
+    "fa-cube", "fa-cube",
+    "fa-leaf", "fa-leaf",
+    "fa-bicycle", "fa-bicycle",
+    "fa-bomb", "fa-bomb"
+];
 
 function generateCard(card) {
     return `<li class="card" data-card="${card}"><i class="fa ${card}"></i></li>`;
@@ -28,7 +28,8 @@ function generateCard(card) {
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    var currentIndex = array.length,
+        temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
@@ -52,14 +53,13 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-//move counter
 var star = document.querySelectorAll("ul.stars li");
 let matchedCards = [];
 
 
- 
- //restart
-let restart = function() {
+
+//restart
+let restart = function () {
     initGame();
     // restart score
     move = 0
@@ -77,12 +77,12 @@ document.querySelector(".fa-repeat").addEventListener("click", restart);
 
 
 
- //setTimer
+//setTimer
 var time = 0;
 var timer;
 
 function setTimer() {
-    timer = setInterval(function(){
+    timer = setInterval(function () {
         time++;
         document.querySelector(".timer").innerHTML = time;
     }, 1000);
@@ -90,8 +90,7 @@ function setTimer() {
 
 function clearTimer() {
     clearInterval(timer);
-    timer = setInterval(function(){
-    }, 1000);
+    timer = setInterval(function () {}, 1000);
 }
 
 
@@ -100,7 +99,7 @@ function clearTimer() {
 function initGame() {
     setTimer();
     var deck = document.querySelector(".deck");
-    var cardHTML = shuffle(cards).map(function(card) {
+    var cardHTML = shuffle(cards).map(function (card) {
         return generateCard(card);
     });
 
@@ -108,7 +107,7 @@ function initGame() {
     var allCards = document.querySelectorAll(".card");
     var openCards = []; //openCards.length
 
-    
+
     var move = 0;
     const countmoves = function () {
         move += 1;
@@ -116,11 +115,11 @@ function initGame() {
 
         /*removing stars*/
         starsTotal = 3;
-        
-        if(move > 20 && move < 26) {
+
+        if (move > 20 && move < 26) {
             star[0].style.display = "none";
             starsTotal = 2;
-        } else if ( move > 27) {
+        } else if (move > 27) {
             star[1].style.display = "none";
             starsTotal = 1;
         }
@@ -138,11 +137,11 @@ function initGame() {
 
 
     //each card
-    const addListener = allCards.forEach(function(card){
+    const addListener = allCards.forEach(function (card) {
         card.addEventListener('click', () => {
-            if (!card.classList.contains("open") && 
-                !card.classList.contains("show") && 
-                !card.classList.contains('match') ) {
+            if (!card.classList.contains("open") &&
+                !card.classList.contains("show") &&
+                !card.classList.contains('match')) {
                 countmoves(); //countMoves will be called here
                 openCards.push(card);
                 card.classList.add('open', 'show');
@@ -151,14 +150,14 @@ function initGame() {
                 var firstCardType = openCards[0].dataset.card;
 
                 // If cards don't match - go away
-                
-                if (openCards.length == 2){
+
+                if (openCards.length == 2) {
                     if (openCards[0].dataset.card == openCards[1].dataset.card) {
-                        openCards.forEach(function(card){
+                        openCards.forEach(function (card) {
                             card.classList.add("match");
                             matchedCards.push(card);
-                            console.log("Anzahl matchedCards"+ matchedCards.length);
-                            setTimeout( () => {
+                            console.log("Anzahl matchedCards" + matchedCards.length);
+                            setTimeout(() => {
                                 if (matchedCards.length == 16) {
                                     showModal();
                                 }
@@ -166,16 +165,16 @@ function initGame() {
                         });
                         openCards = [];
                     } else {
-                    //If no match, hide
-                        setTimeout( () =>{
-                            openCards.forEach(function(card){
+                        //If no match, hide
+                        setTimeout(() => {
+                            openCards.forEach(function (card) {
                                 card.classList.remove('open', 'show');
                             });
                             openCards = [];
                         }, 1000);
                     }
                 } else if (openCards.length >= 3) {
-                    openCards.forEach(function(card) {
+                    openCards.forEach(function (card) {
                         card.classList.remove("open", "show");
                     });
                     openCards = [];
@@ -183,10 +182,13 @@ function initGame() {
             }
         });
     });
-
-
 }
-
 
 initGame();
 
+/**
+ * some external sources that I got inspired from: 
+ * https://www.youtube.com/watch?time_continue=2943&v=x47oLiTpIVk
+ * https://www.youtube.com/watch?v=oECVwum-7Zc
+ * https://codepen.io/andreablgh/pen/MGraPY?editors=0010
+ */
