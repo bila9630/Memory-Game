@@ -65,6 +65,7 @@ let restart = function() {
     move = 0
     matchedCards = [];
     time = 0;
+    starsTotal = 3;
     clearTimer();
     star[0].style.display = "inline";
     star[1].style.display = "inline";
@@ -93,13 +94,7 @@ function clearTimer() {
     }, 1000);
 }
 
-//modal
-modal = document.querySelector(".modal");
-showModal = () => {
-    modal.style.display = "block";
-    document.querySelector(".ModalTimer").innerHTML = time;
-    document.querySelector(".ModalMoves").innerHTML = move;
-}
+
 
 
 function initGame() {
@@ -120,12 +115,24 @@ function initGame() {
         document.querySelector(".moves").innerHTML = move;
 
         /*removing stars*/
+        starsTotal = 3;
         
-        if(move > 15 && move < 26) {
+        if(move > 20 && move < 26) {
             star[0].style.display = "none";
+            starsTotal = 2;
         } else if ( move > 27) {
             star[1].style.display = "none";
+            starsTotal = 1;
         }
+    }
+
+    //modal
+    modal = document.querySelector(".modal");
+    showModal = () => {
+        modal.style.display = "block";
+        document.querySelector(".ModalTimer").innerHTML = time;
+        document.querySelector(".ModalMoves").innerHTML = move;
+        document.querySelector(".ModalStars").innerHTML = starsTotal;
     }
 
 
