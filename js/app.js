@@ -56,15 +56,7 @@ function shuffle(array) {
 var star = document.querySelectorAll("ul.stars li");
 let matchedCards = [];
 
-//modal
-let modal = document.querySelector(".modal");
-showModal = () => {
-    modal.style.display = "block";
-    //shows results in the end
-    document.querySelector("ModalTimer").innerHTML = time;
-}
 
- 
  
  //restart
 let restart = function() {
@@ -73,6 +65,7 @@ let restart = function() {
     move = 0
     matchedCards = [];
     time = 0;
+    starsTotal = 3;
     clearTimer();
     star[0].style.display = "inline";
     star[1].style.display = "inline";
@@ -102,6 +95,8 @@ function clearTimer() {
 }
 
 
+
+
 function initGame() {
     setTimer();
     var deck = document.querySelector(".deck");
@@ -114,18 +109,30 @@ function initGame() {
     var openCards = []; //openCards.length
 
     
-    let move = 0;
+    var move = 0;
     const countmoves = function () {
         move += 1;
         document.querySelector(".moves").innerHTML = move;
 
         /*removing stars*/
+        starsTotal = 3;
         
-        if(move > 15 && move < 26) {
+        if(move > 20 && move < 26) {
             star[0].style.display = "none";
+            starsTotal = 2;
         } else if ( move > 27) {
             star[1].style.display = "none";
+            starsTotal = 1;
         }
+    }
+
+    //modal
+    modal = document.querySelector(".modal");
+    showModal = () => {
+        modal.style.display = "block";
+        document.querySelector(".ModalTimer").innerHTML = time;
+        document.querySelector(".ModalMoves").innerHTML = move;
+        document.querySelector(".ModalStars").innerHTML = starsTotal;
     }
 
 
@@ -173,7 +180,6 @@ function initGame() {
                     });
                     openCards = [];
                 }
-                
             }
         });
     });
