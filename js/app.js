@@ -54,6 +54,7 @@ function shuffle(array) {
  */
 
 var star = document.querySelectorAll("ul.stars li");
+//matched cards is an array to indicate later, when the game should end
 let matchedCards = [];
 
 
@@ -61,7 +62,7 @@ let matchedCards = [];
 //restart
 let restart = function () {
     initGame();
-    // restart score
+    // restart some standards
     move = 0
     matchedCards = [];
     time = 0;
@@ -107,7 +108,7 @@ function initGame() {
     var allCards = document.querySelectorAll(".card");
     var openCards = []; //openCards.length
 
-
+    //moves
     var move = 0;
     const countmoves = function () {
         move += 1;
@@ -136,7 +137,7 @@ function initGame() {
 
 
 
-    //each card
+    //each card wil get an event listener
     const addListener = allCards.forEach(function (card) {
         card.addEventListener('click', () => {
             if (!card.classList.contains("open") &&
@@ -155,9 +156,10 @@ function initGame() {
                     if (openCards[0].dataset.card == openCards[1].dataset.card) {
                         openCards.forEach(function (card) {
                             card.classList.add("match");
+                            //if the cards matched, they will be pushed to matchedcards
                             matchedCards.push(card);
-                            console.log("Anzahl matchedCards" + matchedCards.length);
                             setTimeout(() => {
+                                //if all cards are open, show modal
                                 if (matchedCards.length == 16) {
                                     showModal();
                                 }
@@ -174,6 +176,7 @@ function initGame() {
                         }, 1000);
                     }
                 } else if (openCards.length >= 3) {
+                    //if you click too fast, all unmatched cards will be closed first
                     openCards.forEach(function (card) {
                         card.classList.remove("open", "show");
                     });
