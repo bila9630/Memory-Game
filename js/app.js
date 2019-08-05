@@ -2,7 +2,7 @@
  * Create a list that holds all of your cards
  */
 
-var cards = ["fa-diamond", 'fa-diamond',
+let cards = ["fa-diamond", 'fa-diamond',
     "fa fa-paper-plane-o", "fa fa-paper-plane-o",
     "fa-anchor", "fa-anchor",
     "fa-bolt", "fa-bolt",
