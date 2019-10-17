@@ -10,5 +10,5 @@ Bootstrap: https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.m
 
 Google Font Coda: https://fonts.googleapis.com/css?family=Coda
 
-##Third Party Credits
+## Third Party Credits
 * Template provided by [Udacity](https://github.com/udacity/fend-project-memory-game)
